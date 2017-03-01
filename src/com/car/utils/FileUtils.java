@@ -11,11 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 public class FileUtils {
-	public static String saveFile(MultipartFile file,HttpServletRequest request){
+	public static String saveFile(MultipartFile file,String dir,HttpServletRequest request){
 		if (file == null) {
 			return null;
 		}
-		String filePath = request.getSession().getServletContext().getRealPath("/") + "/upload/";
+		String filePath = request.getSession().getServletContext().getRealPath("/") + "/" + dir + "/";
 		String newFileName = MD5Util.getMD5String(file.getOriginalFilename() + new Date() + UUID.randomUUID().toString()).replace(".","")
                 + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
@@ -29,9 +29,11 @@ public class FileUtils {
             out.write(file.getBytes());
             out.flush();
             out.close();
+            return "/" + dir +"/" + newFileName;
 		} catch (Exception e) {
             e.printStackTrace();
         }
-		return "/upload/" + newFileName;
+		
+		return null;
 	}
 }

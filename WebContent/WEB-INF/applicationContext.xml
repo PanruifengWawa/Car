@@ -26,6 +26,8 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.car.models.User</value>
+                <value>com.car.models.File</value>
+                <value>com.car.models.Material</value>
             </list>
         </property>
     </bean>

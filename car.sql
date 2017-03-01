@@ -17,3 +17,17 @@ type int
 
 INSERT INTO `car`.`t_user` (`id`, `user_name`, `password`, `name`, `state`, `email`, `register_date`, `school_year`, `type`) VALUES ('3', 'admin', '2818be0fece8b901a95b4ceeb639cbdf', 'admin', '1', '', '2017-02-28 19:04:35', '', '0');
 
+DROP TABLE IF EXISTS t_file;
+create table t_file(
+id serial primary key,
+title varchar(256),
+content text,
+date datetime,
+url varchar(256)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS t_material;
+create table t_material(
+id serial primary key,
+file_id bigint(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
