@@ -3,7 +3,9 @@ package com.car.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +26,19 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
 	@Override
 	public boolean deleteCareerPlan(Long careerPlanId) {
 		// TODO Auto-generated method stub
-		return delete(get(careerPlanId));
+		Session session = getSession();
+        String sql = "delete from t_career_plan where id=?";
+        try {
+        	Query query = session.createSQLQuery(sql);
+        	query.setParameter(0, careerPlanId);
+            query.executeUpdate();
+        } catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+        	return false;
+		}
+        
+        return true;
 	}
 
 	@Override
@@ -39,7 +53,7 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
         if (state != null) {
         	criteria.add(Restrictions.eq("state",state));
 		}
-        
+        criteria.addOrder(Order.desc("plandate"));
         try {
             ret = criteria.list();
         }catch (Exception e){

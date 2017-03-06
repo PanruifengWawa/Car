@@ -38,7 +38,7 @@ public class CareerPlan {
 	}
 	
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne()
 	@JoinColumn(name = "file_id") 
 	public File getFile() {
 		return file;

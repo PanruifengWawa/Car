@@ -26,6 +26,7 @@ content text,
 date datetime,
 url varchar(256)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into t_file(id,title) values(1,"无文件");
 
 DROP TABLE IF EXISTS t_material;
 create table t_material(

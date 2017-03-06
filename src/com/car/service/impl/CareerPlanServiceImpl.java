@@ -52,6 +52,9 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 				careerPlan.setContent(content);
 				careerPlan.setState(Parameters.stateUncommit);
 				careerPlan.setPlandate(DateUtil.parse(plandateStr));
+				File file = new File();
+				file.setId(new Long(1));
+				careerPlan.setFile(file);
 				careerPlanDao.saveCareerPlan(careerPlan);
 			}
 			
@@ -85,12 +88,11 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 		List<CareerPlan> careerPlans = null;
 		if (user == null) {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+			return dataWrapper;
 		} else if (user.getType() == Parameters.admin) {
-			if (userId != null) {
-				careerPlans = careerPlanDao.getCareerPlan(userId,state);
-			} else {
-				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
-			}
+			
+			careerPlans = careerPlanDao.getCareerPlan(userId,state);
+
 		} else {
 			careerPlans = careerPlanDao.getCareerPlan(user.getId(),state);
 		}
@@ -237,6 +239,26 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
 		
+		return dataWrapper;
+	}
+
+	@Override
+	public DataWrapper<CareerPlan> getById(Long careerPlanId, String token) {
+		// TODO Auto-generated method stub
+		DataWrapper<CareerPlan> dataWrapper = new DataWrapper<CareerPlan>(); 
+		User user = SessionManager.getSession(token);
+		if (user != null) {
+			CareerPlan careerPlan = careerPlanDao.getById(careerPlanId);
+			if (user.getType() == Parameters.admin) {
+				dataWrapper.setData(careerPlan);
+			} else if(careerPlan !=null && user.getType() == Parameters.user && careerPlan.getUserId() == user.getId()) {
+				dataWrapper.setData(careerPlan);
+			} else {
+				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+			}
+		} else {
+			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+		}
 		return dataWrapper;
 	}
 
