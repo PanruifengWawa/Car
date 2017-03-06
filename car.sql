@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS t_file;
 create table t_file(
 id serial primary key,
 title varchar(256),
+owner varchar(200),
 content text,
 date datetime,
 url varchar(256)
@@ -30,4 +31,18 @@ DROP TABLE IF EXISTS t_material;
 create table t_material(
 id serial primary key,
 file_id bigint(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS t_career_plan;
+create table t_career_plan(
+id serial primary key,
+user_id bigint(11),
+title varchar(256),
+content text,
+file_id bigint(11),
+state int,
+response text,
+plandate date,
+comdate date,
+resdate date
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

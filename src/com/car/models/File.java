@@ -17,8 +17,19 @@ public class File {
 	private String title;
 	private String content;
 	private String url;
+	private String owner;
 	private Timestamp date;
 	
+	
+	
+	@Basic
+    @Column(name = "owner")
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

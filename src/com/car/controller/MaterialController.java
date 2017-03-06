@@ -135,6 +135,7 @@ public class MaterialController {
     *    					"title": "导航栏 #010022.jpg",
     *    					"content": null,
     *    					"url": "/material/c05c652cd06ab3d7d1cbb7d023695d69.jpg",
+    *    					"owner": "prf",
     *    					"date": 1488366059000
     *  				}
     *			},
@@ -145,6 +146,7 @@ public class MaterialController {
     *    					"title": "登陆-空白_03.png",
     *    					"content": null,
     *    					"url": "/material/cb363e7158f54109c8e3ba689abc782a.png",
+    *    					"owner": "prf",
     *    					"date": 1488366154000
     *  				}
     *			}

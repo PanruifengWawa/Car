@@ -44,6 +44,7 @@ public class MaterialServiceImpl implements MaterialService {
 					fileEntity.setUrl(filePath);
 					fileEntity.setDate(new Timestamp(System.currentTimeMillis()));
 					fileEntity.setId(null);
+					fileEntity.setOwner(admin.getName());
 					fileDao.saveFile(fileEntity);
 					if (fileEntity.getId() != null) {
 						Material material = new Material();

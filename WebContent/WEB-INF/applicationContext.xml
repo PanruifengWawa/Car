@@ -28,6 +28,7 @@
                 <value>com.car.models.User</value>
                 <value>com.car.models.File</value>
                 <value>com.car.models.Material</value>
+                <value>com.car.models.CarrerPlan</value>
             </list>
         </property>
     </bean>
