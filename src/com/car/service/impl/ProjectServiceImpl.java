@@ -124,15 +124,15 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public DataWrapper<List<Project>> getProjectList(String name, String token) {
+	public DataWrapper<List<Project>> getProjectList(String name,Integer numberPerPage, Integer currentPage,String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<List<Project>> dataWrapper = new DataWrapper<List<Project>>(); 
 		User user = SessionManager.getSession(token);
 		if (user != null) {
 			if (user.getType() == Parameters.admin) {
-				dataWrapper = projectDao.getProjectList(name, null);
+				dataWrapper = projectDao.getProjectList(name, null,numberPerPage,currentPage);
 			} else {
-				dataWrapper = projectDao.getProjectList(name, user.getId());
+				dataWrapper = projectDao.getProjectList(name, user.getId(),numberPerPage,currentPage);
 			}
 			
 		} else {
@@ -143,12 +143,15 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public DataWrapper<List<User>> getMemberListList(Long projectId, String token) {
+	public DataWrapper<List<User>> getMemberList(Long projectId, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<List<User>> dataWrapper = new DataWrapper<List<User>>(); 
 		User user = SessionManager.getSession(token);
 		if (user != null && projectId != null) {
 			dataWrapper = userDao.getProjectMember(projectId);
+			for(User u : dataWrapper.getData()) {
+				u.setPassword(null);
+			}
 			
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
@@ -165,7 +168,7 @@ public class ProjectServiceImpl implements ProjectService {
 		User user = SessionManager.getSession(token);
 		if (user != null && projectId != null && file != null) {
 			ProjectMember projectMember = projectMemberDao.getByUserIdProjectId(user.getId(), projectId);
-			if (projectMember != null) {
+			if (projectMember != null || user.getType() == Parameters.admin) {
 				String filePath = FileUtils.saveFile(file, "project/" + projectId, request);
 				File fileEntity = new File();
 				fileEntity.setTitle(file.getOriginalFilename());
@@ -205,7 +208,7 @@ public class ProjectServiceImpl implements ProjectService {
 			ProjectFile projectFile = projectFileDao.getById(projectFileId);
 			if (projectFile != null) {
 				ProjectMember projectMember = projectMemberDao.getByUserIdProjectId(user.getId(), projectFile.getProjectId());
-				if (projectMember != null) {
+				if (projectMember != null || user.getType() == Parameters.admin) {
 					if (!projectFileDao.deleteProjectFile(projectFile)) {
 						dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 					}
@@ -229,7 +232,7 @@ public class ProjectServiceImpl implements ProjectService {
 		User user = SessionManager.getSession(token);
 		if (user != null && projectId != null) {
 			ProjectMember projectMember = projectMemberDao.getByUserIdProjectId(user.getId(), projectId);
-			if (projectMember != null) {
+			if (projectMember != null || user.getType() == Parameters.admin) {
 				dataWrapper = projectFileDao.getProjectFileList(projectId, numberPerPage, currentPage);
 			} else {
 				dataWrapper.setErrorCode(ErrorCodeEnum.Error);

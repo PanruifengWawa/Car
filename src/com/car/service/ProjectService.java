@@ -17,8 +17,8 @@ public interface ProjectService {
 	DataWrapper<Void> addMember(Long projectId,Long userId,String token);
 	DataWrapper<Void> removeMember(Long projectId,Long userId,String token);
 	
-	DataWrapper<List<Project>> getProjectList(String name,String token);
-	DataWrapper<List<User>> getMemberListList(Long projectId,String token);
+	DataWrapper<List<Project>> getProjectList(String name,Integer numberPerPage, Integer currentPage,String token);
+	DataWrapper<List<User>> getMemberList(Long projectId,String token);
 	
 	DataWrapper<Void> uploadProjectFile(Long projectId,MultipartFile file,String token,HttpServletRequest request);
 	DataWrapper<Void> deleteProjectFile(Long projectFileId,String token);
