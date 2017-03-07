@@ -145,13 +145,13 @@ public class UserServiceImpl implements UserService {
 		return dataWrapper;
 	}
 	@Override
-	public DataWrapper<List<User>> getUserList(Integer state, String schoolYear, Integer numberPerPage,
+	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer numberPerPage,
 			Integer currentPage, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<List<User>> dataWrapper = new DataWrapper<List<User>>();
 		User user = SessionManager.getSession(token);
-		if (user != null && user.getType() == Parameters.admin) {
-			dataWrapper = userDao.getUserList(state, schoolYear, numberPerPage, currentPage);
+		if (user != null) {
+			dataWrapper = userDao.getUserList(keywords,state, schoolYear, numberPerPage, currentPage);
 			for(User oneUser : dataWrapper.getData()) {
 				oneUser.setPassword(null);
 			}
@@ -165,7 +165,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		DataWrapper<User> dataWrapper = new DataWrapper<User>();
 		User admin = SessionManager.getSession(token);
-		if (admin != null && admin.getType() == Parameters.admin) {
+		if (admin != null) {
 			User user = userDao.getById(userId);
 			user.setPassword(null);
 			dataWrapper.setData(user);
@@ -194,5 +194,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return dataWrapper;
 	}
+	
 
 }

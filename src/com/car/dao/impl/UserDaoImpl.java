@@ -3,6 +3,7 @@ package com.car.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
@@ -57,7 +58,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 	}
 
 	@Override
-	public DataWrapper<List<User>> getUserList(Integer state, String schoolYear, Integer numberPerPage,
+	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer numberPerPage,
 			Integer currentPage) {
 		// TODO Auto-generated method stub
 		if (numberPerPage == null) {
@@ -77,6 +78,12 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 		if (schoolYear != null) {
 			criteria.add(Restrictions.eq("schoolYear",schoolYear));
 		}
+		if (keywords != null) {
+			criteria.add(Restrictions.or(Restrictions.like("userName",keywords,MatchMode.ANYWHERE),
+					Restrictions.like("name",keywords,MatchMode.ANYWHERE),Restrictions.like("email",keywords,MatchMode.ANYWHERE)
+					));
+		}
+		
 		criteria.add(Restrictions.eq("type",Parameters.user));
 
 		
@@ -102,6 +109,29 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
         dataWrapper.setTotalPage(totalPageNum);
         dataWrapper.setNumberPerPage(numberPerPage);
 		return dataWrapper;
+	}
+
+
+	@Override
+	public DataWrapper<List<User>> getProjectMember(Long projectId) {
+		// TODO Auto-generated method stub
+		DataWrapper<List<User>> dataWrapper = new DataWrapper<List<User>>();
+		String sql = "select u.* from t_user u,r_project_member pm where pm.user_id = u.id and pm.project_id=?";
+		
+		
+		List<User> ret = null;
+        Session session = getSession();
+        
+        try {
+            Query query = session.createSQLQuery(sql).addEntity(User.class);
+            query.setParameter(0, projectId);
+            ret = query.list();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        dataWrapper.setData(ret);
+        return dataWrapper;
 	}
 
 }

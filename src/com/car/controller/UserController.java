@@ -263,10 +263,11 @@ public class UserController {
     }
 	
 	/**
-	* @api {get} api/user/getUserList 获取用户列表 -管理员用
+	* @api {get} api/user/getUserList 获取用户列表 -管理员，用户用
 	* @apiName user_getUserList
 	* @apiGroup user
 	*
+	* @apiParam {String} keywords * 筛选参数，userName、name、email模糊查找（可选）
 	* @apiParam {int} state * 筛选参数，用户状态0-未通过，1-通过，2-正在审核（可选）
 	* @apiParam {String} schoolYear * 学籍 类似2016（可选）
 	* @apiParam {int} numberPerPage * 分页大小 （可选）
@@ -325,6 +326,7 @@ public class UserController {
 	@RequestMapping(value="getUserList", method = RequestMethod.GET)
     @ResponseBody
     public DataWrapper<List<User>> getUserList(
+    		@RequestParam(value = "keywords", required = false) String keywords,
     		@RequestParam(value = "state", required = false) Integer state,
     		@RequestParam(value = "schoolYear", required = false) String schoolYear,
     		@RequestParam(value = "numberPerPage", required = false) Integer numberPerPage,
@@ -332,7 +334,7 @@ public class UserController {
     		@RequestParam(value = "token", required = true) String token
     		) {
 		
-    	return userService.getUserList(state, schoolYear, numberPerPage, currentPage, token);
+    	return userService.getUserList(keywords,state, schoolYear, numberPerPage, currentPage, token);
     }
 	
 	
@@ -435,4 +437,6 @@ public class UserController {
 		
     	return userService.verify(userId, state, token);
     }
+	
+	
 }

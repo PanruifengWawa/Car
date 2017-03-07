@@ -47,3 +47,26 @@ plandate date,
 comdate date,
 resdate date
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS t_project;
+create table t_project(
+id serial primary key,
+name varchar(256),
+regdate date
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS r_project_member;
+create table r_project_member(
+id serial primary key,
+project_id bigint(11),
+user_id bigint(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE r_project_member  
+ADD UNIQUE KEY(project_id, user_id); 
+
+DROP TABLE IF EXISTS t_project_file;
+create table t_project_file(
+id serial primary key,
+project_id bigint(11),
+file_id bigint(11)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -29,6 +29,9 @@
                 <value>com.car.models.File</value>
                 <value>com.car.models.Material</value>
                 <value>com.car.models.CareerPlan</value>
+                <value>com.car.models.Project</value>
+                <value>com.car.models.ProjectFile</value>
+                <value>com.car.models.ProjectMember</value>
             </list>
         </property>
     </bean>
