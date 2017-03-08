@@ -172,7 +172,7 @@ public class ProjectServiceImpl implements ProjectService {
 				String filePath = FileUtils.saveFile(file, "project/" + projectId, request);
 				File fileEntity = new File();
 				fileEntity.setTitle(file.getOriginalFilename());
-				fileEntity.setUrl(filePath);
+				fileEntity.setUrl(Parameters.fileSrc + filePath);
 				fileEntity.setDate(new Timestamp(System.currentTimeMillis()));
 				fileEntity.setId(null);
 				fileEntity.setOwner(user.getName());

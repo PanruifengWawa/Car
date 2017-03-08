@@ -13,7 +13,7 @@ register_date datetime,
 school_year varchar(10),
 type int
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+alter table t_user add column career_count int not null default 0;
 
 INSERT INTO `car`.`t_user` (`id`, `user_name`, `password`, `name`, `state`, `email`, `register_date`, `school_year`, `type`) VALUES ('3', 'admin', '2818be0fece8b901a95b4ceeb639cbdf', 'admin', '1', '', '2017-02-28 19:04:35', '', '0');
 
@@ -70,3 +70,26 @@ id serial primary key,
 project_id bigint(11),
 file_id bigint(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS t_project_plan;
+create table t_project_plan(
+id serial primary key,
+project_id bigint(11),
+title varchar(256),
+file_id bigint(11),
+content text,
+state int,
+response text,
+plandate date,
+comdate date,
+resdate date
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+drop trigger if exists careerCountTrigger;
+delimiter || 
+create trigger careerCountTrigger after insert on t_career_plan for each row   
+begin 
+	update t_user u set u.career_count = 1 where u.id = new.user_id;
+end||
+delimiter ;

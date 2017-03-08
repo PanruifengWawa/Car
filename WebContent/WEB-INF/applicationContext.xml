@@ -32,6 +32,7 @@
                 <value>com.car.models.Project</value>
                 <value>com.car.models.ProjectFile</value>
                 <value>com.car.models.ProjectMember</value>
+                <value>com.car.models.ProjectPlan</value>
             </list>
         </property>
     </bean>

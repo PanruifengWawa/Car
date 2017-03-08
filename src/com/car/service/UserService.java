@@ -11,7 +11,7 @@ public interface UserService {
 	DataWrapper<User> getByToken(String token);
 	DataWrapper<Void> updateUser(String name,String email,String schoolYear,String token);
 	DataWrapper<Void> changePwd(String oldPassword,String newPassword,String token);
-	DataWrapper<List<User>> getUserList(String keywords,Integer state,String schoolYear,Integer numberPerPage,Integer currentPage,String token); 
+	DataWrapper<List<User>> getUserList(String keywords,Integer state,String schoolYear,Integer careerCount,Integer numberPerPage,Integer currentPage,String token); 
 	
 	DataWrapper<User> getUserDetails(Long userId,String token);
 	DataWrapper<Void> verify(Long userId,Integer state,String token);

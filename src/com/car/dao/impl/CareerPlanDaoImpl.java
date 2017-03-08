@@ -2,11 +2,8 @@ package com.car.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.car.dao.BaseDao;
@@ -42,20 +39,24 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
 	}
 
 	@Override
-	public List<CareerPlan> getCareerPlan(Long userId,Integer state) {
+	public List<CareerPlan> getCareerPlan(Long userId,Integer state,String schoolYear) {
 		// TODO Auto-generated method stub
 		List<CareerPlan> ret = null;
         Session session = getSession();
-        Criteria criteria = session.createCriteria(CareerPlan.class);
+        String sql = "select cp.* from t_career_plan cp, t_user u where cp.user_id=u.id";
         if (userId != null) {
-        	criteria.add(Restrictions.eq("userId",userId));
+			sql += " and cp.user_id = " + userId;
 		}
         if (state != null) {
-        	criteria.add(Restrictions.eq("state",state));
+			sql += " and cp.state = " + state;
 		}
-        criteria.addOrder(Order.desc("plandate"));
+        if (schoolYear != null) {
+        	sql += " and u.school_year = " + schoolYear;
+		}
+        
+        Query query = session.createSQLQuery(sql).addEntity(CareerPlan.class);
         try {
-            ret = criteria.list();
+            ret = query.list();
         }catch (Exception e){
             e.printStackTrace();
         }

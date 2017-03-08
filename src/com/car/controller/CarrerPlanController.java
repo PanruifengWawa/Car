@@ -127,7 +127,8 @@ public class CarrerPlanController {
 	* @apiGroup careerPlan
 	*
 	* @apiParam {Long} userId * 用户id（非必须。对于用户，不需要此参数，普通用户只能获取个人的生涯计划列表；对于管理员，可有此参数，若无，则获取所有）
-	* @apiParam {Integer} state * 状态（非必须）
+	* @apiParam {Integer} state * 状态,未提交-1，待审核0，已通过1，逾期-2，未通过2（非必须）
+	* @apiParam {String} schoolYear * 个人生涯的年级（非必须）
 	* @apiParam {String} token * 身份验证（必须）
 	*
 	* @apiSuccessExample {json} Success-Response:
@@ -237,10 +238,11 @@ public class CarrerPlanController {
     public DataWrapper<CareerPlanWrapper> getCareePlan(
     		@RequestParam(value = "userId", required = false) Long userId,
     		@RequestParam(value = "state", required = false) Integer state,
+    		@RequestParam(value = "schoolYear", required = false) String schoolYear,
     		@RequestParam(value = "token",required = true) String token
     		) {
 		
-    	return  careerPlanService.getCareerPlanList(userId, state, token);
+    	return  careerPlanService.getCareerPlanList(userId, state, schoolYear,token);
     }
 	
 	

@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 			user.setType(Parameters.user);//0-admin, 1-user
 			user.setRegisterDate(new Timestamp(System.currentTimeMillis()));
 			user.setId(null);
+			user.setCareerCount(0);
 			user.setPassword(MD5Util.getMD5String(Parameters.salt + MD5Util.getMD5String(user.getPassword())));
 			if (!userDao.saveUser(user)) {
 				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
@@ -145,13 +146,13 @@ public class UserServiceImpl implements UserService {
 		return dataWrapper;
 	}
 	@Override
-	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer numberPerPage,
+	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear,Integer careerCount,Integer numberPerPage,
 			Integer currentPage, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<List<User>> dataWrapper = new DataWrapper<List<User>>();
 		User user = SessionManager.getSession(token);
 		if (user != null) {
-			dataWrapper = userDao.getUserList(keywords,state, schoolYear, numberPerPage, currentPage);
+			dataWrapper = userDao.getUserList(keywords,state, schoolYear, careerCount, numberPerPage, currentPage);
 			for(User oneUser : dataWrapper.getData()) {
 				oneUser.setPassword(null);
 			}

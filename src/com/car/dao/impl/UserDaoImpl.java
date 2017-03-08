@@ -58,7 +58,7 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 	}
 
 	@Override
-	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer numberPerPage,
+	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear,Integer careerCount, Integer numberPerPage,
 			Integer currentPage) {
 		// TODO Auto-generated method stub
 		if (numberPerPage == null) {
@@ -82,6 +82,9 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
 			criteria.add(Restrictions.or(Restrictions.like("userName",keywords,MatchMode.ANYWHERE),
 					Restrictions.like("name",keywords,MatchMode.ANYWHERE),Restrictions.like("email",keywords,MatchMode.ANYWHERE)
 					));
+		}
+		if (careerCount != null) {
+			criteria.add(Restrictions.eq("careerCount",careerCount));
 		}
 		
 		criteria.add(Restrictions.eq("type",Parameters.user));

@@ -270,6 +270,7 @@ public class UserController {
 	* @apiParam {String} keywords * 筛选参数，userName、name、email模糊查找（可选）
 	* @apiParam {int} state * 筛选参数，用户状态0-未通过，1-通过，2-正在审核（可选）
 	* @apiParam {String} schoolYear * 学籍 类似2016（可选）
+	* @apiParam {int} careerCount * 是否有个人生涯规划 0-无，1-有（可选）
 	* @apiParam {int} numberPerPage * 分页大小 （可选）
 	* @apiParam {int} currentPage * 当前页（可选，不分页的话，取出所有的数据）
 	* @apiParam {String} token *（必须）
@@ -329,12 +330,13 @@ public class UserController {
     		@RequestParam(value = "keywords", required = false) String keywords,
     		@RequestParam(value = "state", required = false) Integer state,
     		@RequestParam(value = "schoolYear", required = false) String schoolYear,
+    		@RequestParam(value = "careerCount", required = false) Integer careerCount,
     		@RequestParam(value = "numberPerPage", required = false) Integer numberPerPage,
     		@RequestParam(value = "currentPage", required = false) Integer currentPage,
     		@RequestParam(value = "token", required = true) String token
     		) {
 		
-    	return userService.getUserList(keywords,state, schoolYear, numberPerPage, currentPage, token);
+    	return userService.getUserList(keywords,state, schoolYear,careerCount, numberPerPage, currentPage, token);
     }
 	
 	

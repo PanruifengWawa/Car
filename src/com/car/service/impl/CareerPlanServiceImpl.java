@@ -81,7 +81,7 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 	}
 
 	@Override
-	public DataWrapper<CareerPlanWrapper> getCareerPlanList(Long userId,Integer state,String token) {
+	public DataWrapper<CareerPlanWrapper> getCareerPlanList(Long userId,Integer state,String schoolYear,String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<CareerPlanWrapper> dataWrapper = new DataWrapper<CareerPlanWrapper>(); 
 		User user = SessionManager.getSession(token);
@@ -91,10 +91,10 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 			return dataWrapper;
 		} else if (user.getType() == Parameters.admin) {
 			
-			careerPlans = careerPlanDao.getCareerPlan(userId,state);
+			careerPlans = careerPlanDao.getCareerPlan(userId,state,schoolYear);
 
 		} else {
-			careerPlans = careerPlanDao.getCareerPlan(user.getId(),state);
+			careerPlans = careerPlanDao.getCareerPlan(user.getId(),state,schoolYear);
 		}
 		
 		CareerPlanWrapper careerPlanWrapper = new CareerPlanWrapper();
@@ -179,7 +179,7 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 				if (filePath != null) {
 					File fileEntity = new File();
 					fileEntity.setTitle(user.getUserName() + "_" + user.getName() + "_" + careerPlanId);
-					fileEntity.setUrl(filePath);
+					fileEntity.setUrl(Parameters.fileSrc + filePath);
 					fileEntity.setDate(new Timestamp(System.currentTimeMillis()));
 					fileEntity.setId(null);
 					fileEntity.setOwner(user.getName());

@@ -22,9 +22,20 @@ public class User {
 	private Timestamp registerDate;
 	private String schoolYear;
 	private Integer type;
+	private Integer careerCount;
+	
+	
+	
+	@Basic
+    @Column(name = "career_count")
+	public Integer getCareerCount() {
+		return careerCount;
+	}
 
-	
-	
+	public void setCareerCount(Integer careerCount) {
+		this.careerCount = careerCount;
+	}
+
 	@Basic
     @Column(name = "user_name")
 	public String getUserName() {

@@ -10,7 +10,7 @@ public interface UserDao {
 	User getByUserName(String userName);
 	User getById(Long id);
 	boolean updateUser(User user);
-	DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer numberPerPage,Integer currentPage);
+	DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear, Integer careerCount,Integer numberPerPage,Integer currentPage);
 	
 	DataWrapper<List<User>> getProjectMember(Long projectId);
 }
