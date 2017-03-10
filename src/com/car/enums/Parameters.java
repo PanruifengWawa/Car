@@ -18,4 +18,12 @@ public class Parameters {
 	public static final String fileSrc = "http://123.56.220.72:8080/Car";
 	
 	public static final String xtoken = "adadaddfmkmklmsksuhu";
+	
+	public static final String emailUserName = "noreply009@163.com";
+	public static final String emailCode = "dapan123";
+	public static final String emailProtocol = "smtp";
+	public static final String emailHost = "smtp.163.com";
+	public static final String emailPort = "465";
+	public static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
+	
 }

@@ -76,4 +76,40 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
 		return update(careerPlan);
 	}
 
+	@Override
+	public boolean updateCareerPlanState() {
+		// TODO Auto-generated method stub
+		Session session = getSession();
+		String sql = "update t_career_plan set state = -2 where state = -1 and curdate() > plandate" ;
+        try {
+        	Query query = session.createSQLQuery(sql);
+            query.executeUpdate();
+        } catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+        	return false;
+		}
+        
+        return true;
+	}
+
+	@Override
+	public List<CareerPlan> getOverDueCareerPlan() {
+		// TODO Auto-generated method stub
+		List<CareerPlan> ret = null;
+        Session session = getSession();
+        String sql = "SELECT * FROM t_career_plan where (state=-1 and date_sub(curdate(),interval -7 day) > plandate) or state=-2";
+
+        
+        Query query = session.createSQLQuery(sql).addEntity(CareerPlan.class);
+        try {
+            ret = query.list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+		return ret;
+	}
+
+
 }

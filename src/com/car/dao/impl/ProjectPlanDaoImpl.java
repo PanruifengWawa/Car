@@ -73,4 +73,39 @@ public class ProjectPlanDaoImpl extends BaseDao<ProjectPlan> implements ProjectP
 		return update(projectPlan);
 	}
 
+	@Override
+	public boolean updateProjectPlanState() {
+		// TODO Auto-generated method stub
+		Session session = getSession();
+		String sql = "update t_project_plan set state = -2 where state = -1 and curdate() > plandate" ;
+        try {
+        	Query query = session.createSQLQuery(sql);
+            query.executeUpdate();
+        } catch (Exception e) {
+			// TODO: handle exception
+        	e.printStackTrace();
+        	return false;
+		}
+        
+        return true;
+	}
+
+	@Override
+	public List<ProjectPlan> getOverDuePlan() {
+		// TODO Auto-generated method stub
+		List<ProjectPlan> ret = null;
+        Session session = getSession();
+        String sql = "SELECT * FROM t_project_plan where (state=-1 and date_sub(curdate(),interval -7 day) > plandate) or state=-2";
+
+        
+        Query query = session.createSQLQuery(sql).addEntity(ProjectPlan.class);
+        try {
+            ret = query.list();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+		return ret;
+	}
+
 }

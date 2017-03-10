@@ -12,4 +12,8 @@ public interface ProjectPlanDao {
 	
 	List<ProjectPlan> getProjectPlanList(Long projectId,Integer state);
 	
+	boolean updateProjectPlanState();
+	
+	List<ProjectPlan> getOverDuePlan();
+	
 }

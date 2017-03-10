@@ -59,5 +59,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-4.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-4.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-4.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.mail.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

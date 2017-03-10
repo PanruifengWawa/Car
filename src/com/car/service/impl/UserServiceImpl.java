@@ -51,15 +51,18 @@ public class UserServiceImpl implements UserService {
 		User user = userDao.getByUserName(userName);
 		if (user != null && user.getPassword().equals(MD5Util.getMD5String(Parameters.salt + MD5Util.getMD5String(password)))) {
 			
-			if (user.getState() == Parameters.unPassed) {
-				dataWrapper.setErrorCode(ErrorCodeEnum.User_UnPassed);
-			} else if(user.getState() == Parameters.toBePassed) {
-				dataWrapper.setErrorCode(ErrorCodeEnum.User_To_Be_Passed);
-			} else {
-				SessionManager.removeSessionByUserId(user.getId());
-				String token = SessionManager.newSession(user);
-				dataWrapper.setToken(token);
-			}
+//			if (user.getState() == Parameters.unPassed) {
+//				dataWrapper.setErrorCode(ErrorCodeEnum.User_UnPassed);
+//			} else if(user.getState() == Parameters.toBePassed) {
+//				dataWrapper.setErrorCode(ErrorCodeEnum.User_To_Be_Passed);
+//			} else {
+//				SessionManager.removeSessionByUserId(user.getId());
+//				String token = SessionManager.newSession(user);
+//				dataWrapper.setToken(token);
+//			}
+			SessionManager.removeSessionByUserId(user.getId());
+			String token = SessionManager.newSession(user);
+			dataWrapper.setToken(token);
 			
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);

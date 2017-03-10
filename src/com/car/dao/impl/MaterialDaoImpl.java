@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.stereotype.Repository;
 
@@ -44,6 +45,8 @@ public class MaterialDaoImpl extends BaseDao<Material> implements MaterialDao {
 		int totalItemNum = ((Long) criteria.uniqueResult()).intValue();
 		int totalPageNum = DaoUtils.getTotalPageNum(totalItemNum, numberPerPage);
 		
+		criteria.addOrder(Order.desc("file"));
+		
 		criteria.setProjection(null);
 		if (currentPage > 0 && numberPerPage > 0) {
 			criteria.setMaxResults(numberPerPage);
@@ -53,7 +56,7 @@ public class MaterialDaoImpl extends BaseDao<Material> implements MaterialDao {
 			ret = criteria.list();
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 		dataWrapper.setData(ret);

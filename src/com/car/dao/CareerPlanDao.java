@@ -10,4 +10,9 @@ public interface CareerPlanDao {
 	boolean updateCareerPlan(CareerPlan careerPlan);
 	List<CareerPlan> getCareerPlan(Long userId,Integer state,String schoolYear);
 	CareerPlan getById(Long id);
+	
+	boolean updateCareerPlanState();
+	
+	List<CareerPlan> getOverDueCareerPlan();
+	
 }
