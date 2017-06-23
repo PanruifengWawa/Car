@@ -24,8 +24,76 @@ public class User {
 	private Integer type;
 	private Integer careerCount;
 	
+	private String school;
+	private String contact;
+	private String idNumber;
+	private String photo;
+	private String mentor;
+	private String degreeType;
 	
 	
+	
+	
+	@Basic
+    @Column(name = "school")
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	@Basic
+    @Column(name = "contact")
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	@Basic
+    @Column(name = "id_number")
+	public String getIdNumber() {
+		return idNumber;
+	}
+
+	public void setIdNumber(String idNumber) {
+		this.idNumber = idNumber;
+	}
+
+	@Basic
+    @Column(name = "photo")
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	@Basic
+    @Column(name = "mentor")
+	public String getMentor() {
+		return mentor;
+	}
+
+	public void setMentor(String mentor) {
+		this.mentor = mentor;
+	}
+
+	@Basic
+    @Column(name = "degree_type")
+	public String getDegreeType() {
+		return degreeType;
+	}
+
+	public void setDegreeType(String degreeType) {
+		this.degreeType = degreeType;
+	}
+
 	@Basic
     @Column(name = "career_count")
 	public Integer getCareerCount() {

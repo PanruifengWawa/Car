@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.type.StandardBasicTypes;
 import org.springframework.stereotype.Repository;
 
 import com.car.dao.BaseDao;
 import com.car.dao.CareerPlanDao;
 import com.car.models.CareerPlan;
+import com.car.models.User;
 
 
 @Repository
@@ -43,7 +45,7 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
 		// TODO Auto-generated method stub
 		List<CareerPlan> ret = null;
         Session session = getSession();
-        String sql = "select cp.* from t_career_plan cp, t_user u where cp.user_id=u.id";
+        String sql = "select cp.*,u.* from t_career_plan cp, t_user u where cp.user_id=u.id";
         if (userId != null) {
 			sql += " and cp.user_id = " + userId;
 		}
@@ -54,7 +56,7 @@ public class CareerPlanDaoImpl extends BaseDao<CareerPlan> implements CareerPlan
         	sql += " and u.school_year = " + schoolYear;
 		}
         
-        Query query = session.createSQLQuery(sql).addEntity(CareerPlan.class);
+        Query query = session.createSQLQuery(sql).addEntity("cp",CareerPlan.class);
         try {
             ret = query.list();
         }catch (Exception e){

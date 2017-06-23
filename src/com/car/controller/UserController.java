@@ -2,6 +2,8 @@ package com.car.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.car.models.User;
 import com.car.service.UserService;
@@ -22,6 +25,49 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	/**
+	* @api {post} api/user/deleteUser 删除用户 - 管理员用
+	* @apiName user_deleteUser
+	* @apiGroup user
+	*
+	* @apiParam {Long} userId * 用户id（必须）
+	* @apiParam {String} token * 身份凭证（必须）
+	*
+	* @apiSuccessExample {json} Success-Response:
+	* 	HTTP/1.1 200 ok
+	* 	{
+	*  		"callStatus": "SUCCEED",
+	*  		"errorCode": "No_Error",
+	*  		"data": null,
+	*  		"token": null,
+	*  		"numberPerPage": 0,
+	*  		"currentPage": 0,
+	*  		"totalNumber": 0,
+	*  		"totalPage": 0
+	*	}
+	*
+	* @apiSuccessExample {json} Error-Response:
+	* 	HTTP/1.1 200 ok
+	* 	{
+	*  		"callStatus": "FAILED",
+	*  		"errorCode": "Error",
+	*  		"data": null,
+	*  		"token": null,
+	*  		"numberPerPage": 0,
+	*  		"currentPage": 0,
+	*  		"totalNumber": 0,
+	*  		"totalPage": 0
+	*	}
+	**/
+	@RequestMapping(value="deleteUser", method = RequestMethod.POST)
+    @ResponseBody
+    public DataWrapper<Void> deleteUser(
+    		@RequestParam(value = "userId", required = true) Long userId,
+    		@RequestParam(value = "token", required = true) String token
+    		) {
+		
+    	return userService.deleteUser(userId, token);
+    }
 	
 	/**
 	* @api {post} api/user/register 注册 -用户用
@@ -33,6 +79,12 @@ public class UserController {
 	* @apiParam {String} name * 姓名（必须）
 	* @apiParam {String} email * 邮箱（必须）
 	* @apiParam {String} schoolYear * 学籍（必须）
+	* @apiParam {String} school * 学院（必须）
+	* @apiParam {String} contact * 联系方式（必须）
+	* @apiParam {String} idNumber * 身份证（必须）
+	* @apiParam {file} file * 个人照片（必须）
+	* @apiParam {String} mentor * 导师信息（必须）
+	* @apiParam {String} degreeType * 硕士类型: 学硕/专硕（必须）
 	*
 	* @apiSuccessExample {json} Success-Response:
 	* 	HTTP/1.1 200 ok
@@ -63,10 +115,12 @@ public class UserController {
 	@RequestMapping(value="register", method = RequestMethod.POST)
     @ResponseBody
     public DataWrapper<Void> register(
-    		@ModelAttribute User user
+    		@ModelAttribute User user,
+    		@RequestParam(value = "file", required = false) MultipartFile file,
+    		HttpServletRequest request
     		) {
 		
-    	return userService.register(user);
+    	return userService.register(user,file,request);
     }
 
 	/**
@@ -82,7 +136,24 @@ public class UserController {
 	* 	{
 	*		"callStatus": "SUCCEED",
 	*		"errorCode": "No_Error",
-	*  		"data": null,
+	*  		"data":{
+    *			"id": 5,
+    *			"userName": "1253027",
+    *			"password": null,
+    *			"name": "潘瑞峰",
+    *			"state": 1,
+    *			"email": "fenghuangqilin@qq.com",
+    *			"registerDate": 1488279875000,
+    *			"schoolYear": "2014",
+    *			"type": 1,
+    *			"careerCount": 1,
+    *			"school": "硬件学院1",
+    *			"contact": "5771",
+    *			"idNumber": "23331",
+    *			"photo": "http://123.56.220.72:8080/Car/personalPhoto/b886b83efb6a1671aa30736392dc89c2.jpg",
+    *			"mentor": "自己1",
+    *			"degreeType": "学硕1"
+  	*		},
 	*  		"token": "SK1d7a4fe3-c2cd-417f-8f6f-bf7412592996",
 	*  		"numberPerPage": 0,
 	*  		"currentPage": 0,
@@ -105,7 +176,7 @@ public class UserController {
 	**/
 	@RequestMapping(value="login", method = RequestMethod.POST)
     @ResponseBody
-    public DataWrapper<Void> login(
+    public DataWrapper<User> login(
     		@RequestParam(value = "userName", required = true) String userName,
             @RequestParam(value = "password",required = true) String password
     		) {
@@ -135,7 +206,14 @@ public class UserController {
 	* 			"email": "123@qq.com",
 	* 			"registerDate": 1488279855000,
 	* 			"schoolYear": "2014",
-	* 			"type": 1
+	* 			"type": 1,
+	* 			"careerCount": 0,
+    *			"school": "硬件学院1",
+    *			"contact": "5771",
+    *			"idNumber": "23331",
+    *			"photo": "http://123.56.220.72:8080/Car/personalPhoto/b886b83efb6a1671aa30736392dc89c2.jpg",
+    *			"mentor": "自己1",
+    *			"degreeType": "学硕1"
 	* 		},
 	* 		"token": null,
 	* 		"numberPerPage": 0,
@@ -176,6 +254,14 @@ public class UserController {
 	* @apiParam {String} name * 用户名（必须）
 	* @apiParam {String} email * 邮箱（必须）
 	* @apiParam {String} schoolYear * 学籍（必须）
+	* 
+	* @apiParam {String} school * 学院（非必须）
+	* @apiParam {String} contact * 联系方式（非必须）
+	* @apiParam {String} idNumber * 身份证（非必须）
+	* @apiParam {file} file * 个人照片（非必须）
+	* @apiParam {String} mentor * 导师信息（非必须）
+	* @apiParam {String} degreeType * 硕士类型: 学硕/专硕（非必须）
+	* 
 	* @apiParam {String} token * 用户凭证（必须）
 	*
 	* @apiSuccessExample {json} Success-Response:
@@ -207,13 +293,18 @@ public class UserController {
 	@RequestMapping(value="update", method = RequestMethod.POST)
     @ResponseBody
     public DataWrapper<Void> updateUser(
-    		@RequestParam(value = "name", required = true) String name,
-    		@RequestParam(value = "email", required = true) String email,
-    		@RequestParam(value = "schoolYear", required = true) String schoolYear,
+//    		@RequestParam(value = "name", required = true) String name,
+//    		@RequestParam(value = "email", required = true) String email,
+//    		@RequestParam(value = "schoolYear", required = true) String schoolYear,
+//    		
+    		@ModelAttribute User user,
+    		@RequestParam(value = "file", required = false) MultipartFile file,
+    		HttpServletRequest request,
+    		
     		@RequestParam(value = "token", required = true) String token
     		) {
 		
-    	return userService.updateUser(name, email, schoolYear, token);
+    	return userService.updateUser(user,file,token,request);
     }
 	
 	/**
@@ -290,18 +381,14 @@ public class UserController {
     *  			"email": "123@qq.com",
     *  			"registerDate": 1488279855000,
     * 	 		"schoolYear": "2014",
-    *  			"type": 1 //user-1,admin-0
-    *			},
-    *			{
-    *  			"id": 2,
-    *  			"userName": "12530241",
-    *  			"password": null,
-    *  			"name": "潘瑞峰",
-    *  			"state": 2,
-    *  			"email": "123@qq.com",
-    *  			"registerDate": 1488279875000,
-    *  			"schoolYear": "2014",
-    *  			"type": 1
+    *  			"type": 1, //user-1,admin-0
+    *  			"careerCount": 0,
+    *			"school": "硬件学院1",
+    *			"contact": "5771",
+    *			"idNumber": "23331",
+    *			"photo": "http://123.56.220.72:8080/Car/personalPhoto/b886b83efb6a1671aa30736392dc89c2.jpg",
+    *			"mentor": "自己1",
+    *			"degreeType": "学硕1"
     *			}
   	*		],
   	*		"token": null,
@@ -362,7 +449,14 @@ public class UserController {
 	* 			"email": "123@qq.com",
 	* 			"registerDate": 1488279855000,
 	* 			"schoolYear": "2014",
-	* 			"type": 1
+	* 			"type": 1,
+	* 			"careerCount": 0,
+    *			"school": "硬件学院1",
+    *			"contact": "5771",
+    *			"idNumber": "23331",
+    *			"photo": "http://123.56.220.72:8080/Car/personalPhoto/b886b83efb6a1671aa30736392dc89c2.jpg",
+    *			"mentor": "自己1",
+    *			"degreeType": "学硕1"
 	* 		},
 	* 		"token": null,
 	* 		"numberPerPage": 0,

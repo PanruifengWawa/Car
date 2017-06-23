@@ -158,7 +158,9 @@ public class CarrerPlanController {
     *        					"response": null,
     *        					"plandate": 1483200000000,
     *        					"comdate": null,
-    *        					"resdate": null
+    *        					"resdate": null,
+    *        					"userName": "1253024",
+    *        					"name": "潘瑞峰1"
     *      				},
     *      				{
     *        					"id": 16,
@@ -177,7 +179,9 @@ public class CarrerPlanController {
     *        					"response": null,
     *        					"plandate": 1483200000000,
     *        					"comdate": null,
-    *        					"resdate": null
+    *        					"resdate": null,
+    *        					"userName": "1253024",
+    *					        "name": "潘瑞峰1"
     *      				}
     *    		 		]
     *  		  	},
@@ -201,7 +205,9 @@ public class CarrerPlanController {
     *        					"response": null,
     *        					"plandate": 1451577600000,
     *        					"comdate": null,
-    *        					"resdate": null
+    *        					"resdate": null,
+    *        					"userName": "1253024",
+    *       			 		"name": "潘瑞峰1"
     *      				}
     *    				]
     *  			}
@@ -373,7 +379,9 @@ public class CarrerPlanController {
     *			"response": null,
     *			"plandate": 1388505600000,
     *			"comdate": 1488729600000,
-    *			"resdate": null
+    *			"resdate": null,
+    *			"userName": "1253024",
+    *			"name": "dapan"
   	*		},
   	*		"token": null,
   	*		"numberPerPage": 0,

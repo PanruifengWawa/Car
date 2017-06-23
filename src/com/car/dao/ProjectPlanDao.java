@@ -10,7 +10,7 @@ public interface ProjectPlanDao {
 	boolean updateProjectPlan(ProjectPlan projectPlan);
 	ProjectPlan getById(Long id);
 	
-	List<ProjectPlan> getProjectPlanList(Long projectId,Integer state);
+	List<ProjectPlan> getProjectPlanList(Long projectId,Integer state,Integer order);
 	
 	boolean updateProjectPlanState();
 	

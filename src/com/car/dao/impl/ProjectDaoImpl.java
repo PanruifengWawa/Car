@@ -77,4 +77,10 @@ public class ProjectDaoImpl extends BaseDao<Project> implements ProjectDao {
         return dataWrapper;
 	}
 
+	@Override
+	public Project getById(Long id) {
+		// TODO Auto-generated method stub
+		return get(id);
+	}
+
 }

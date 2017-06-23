@@ -54,6 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
 			project.setId(null);
 			project.setName(name);
 			project.setRegdate(new Date());
+			project.setPlanCount(0);
 			if (!projectDao.addProject(project)) {
 				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 			}
@@ -87,8 +88,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public DataWrapper<Void> addMember(Long projectId, Long userId, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<Void> dataWrapper = new DataWrapper<Void>(); 
-		User admin = SessionManager.getSession(token);
-		if (admin != null && admin.getType() == Parameters.admin && projectId != null && userId != null) {
+		User user = SessionManager.getSession(token);
+
+		if (user != null && (user.getType() == Parameters.admin || projectMemberDao.getByUserIdProjectId(user.getId(), projectId) != null) && projectId != null && userId != null) {
 			
 			ProjectMember projectMember = new ProjectMember();
 			projectMember.setId(null);
@@ -109,8 +111,8 @@ public class ProjectServiceImpl implements ProjectService {
 	public DataWrapper<Void> removeMember(Long projectId, Long userId, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<Void> dataWrapper = new DataWrapper<Void>(); 
-		User admin = SessionManager.getSession(token);
-		if (admin != null && admin.getType() == Parameters.admin && projectId != null && userId != null) {
+		User user = SessionManager.getSession(token);
+		if (user != null && (user.getType() == Parameters.admin ||projectMemberDao.getByUserIdProjectId(user.getId(), projectId) != null )&& projectId != null && userId != null) {
 			
 			if (!projectMemberDao.deleteProjectMember(userId, projectId)) {
 				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
@@ -241,6 +243,25 @@ public class ProjectServiceImpl implements ProjectService {
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
+		return dataWrapper;
+	}
+
+	@Override
+	public DataWrapper<Project> getById(Long projectId, String token) {
+		// TODO Auto-generated method stub
+		DataWrapper<Project> dataWrapper = new DataWrapper<Project>(); 
+		User user = SessionManager.getSession(token);
+		
+		if (user != null && projectId != null && (user.getType() == Parameters.admin ||projectMemberDao.getByUserIdProjectId(user.getId(), projectId) != null )) {
+			Project project = projectDao.getById(projectId);
+			dataWrapper.setData(project);
+			
+			
+		} else {
+			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+		}
+		
+		
 		return dataWrapper;
 	}
 

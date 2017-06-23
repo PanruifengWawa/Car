@@ -110,18 +110,24 @@ public class ProjectPlanServiceImpl implements ProjectPlanService {
 	}
 
 	@Override
-	public DataWrapper<ProjectPlanWrapper> getProjectPlanList(Long projectId, Integer state, String token) {
+	public DataWrapper<ProjectPlanWrapper> getProjectPlanList(Long projectId, Integer state, Integer order,String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<ProjectPlanWrapper> dataWrapper = new DataWrapper<ProjectPlanWrapper>(); 
 		User user = SessionManager.getSession(token);
 		List<ProjectPlan> projectPlanList = null;
 		if (user != null) {
-			ProjectMember projectMember = projectMemberDao.getByUserIdProjectId(user.getId(), projectId);
-			if (user.getType() == Parameters.admin || projectMember != null) {
-				projectPlanList = projectPlanDao.getProjectPlanList(projectId, state);
-			} else {
-				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+			if (user.getType() == Parameters.admin) {
+				projectPlanList = projectPlanDao.getProjectPlanList(projectId, state,order);
+			} else if (user.getType() == Parameters.user && projectId != null) {
+				ProjectMember projectMember = projectMemberDao.getByUserIdProjectId(user.getId(), projectId);
+				if (projectMember != null) {
+					projectPlanList = projectPlanDao.getProjectPlanList(projectId, state,order);
+				} else {
+					dataWrapper.setErrorCode(ErrorCodeEnum.Error);
+				}
 			}
+			
+			
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
@@ -136,8 +142,13 @@ public class ProjectPlanServiceImpl implements ProjectPlanService {
 			Map<Integer, ProjectPlanForYear> map = new TreeMap<Integer, ProjectPlanForYear>(
 	                new Comparator<Integer>() {
 	                    public int compare(Integer obj1, Integer obj2) {
-	                        // 降序排序
-	                        return obj2.compareTo(obj1);
+	                        // 升序
+	                    	if (order == 0) {
+	                    		return obj1.compareTo(obj2);
+							} else { //降序排序
+								return obj2.compareTo(obj1);
+							}
+	                        
 	                    }
 	                });
 			for(ProjectPlan projectPlan: projectPlanList) {

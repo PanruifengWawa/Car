@@ -188,8 +188,9 @@ public class ProjectPlanController {
 	* @apiName projectPlan_getProjectPlanList
 	* @apiGroup projectPlan
 	*
-	* @apiParam {Long} projectId * 项目Id（必须，只有项目成员和管理员能获取）
+	* @apiParam {Long} projectId * 项目Id（非必须，只有项目成员和管理员能获取）
 	* @apiParam {int} state * 状态，未提交-1，待审核0，已通过1，逾期-2，未通过2（非必须）
+	* @apiParam {int} order * 排序，0升序，1降序
 	* @apiParam {String} token * 身份验证（必须）
 	*
 	* @apiSuccessExample {json} Success-Response:
@@ -278,12 +279,15 @@ public class ProjectPlanController {
 	@RequestMapping(value="getProjectPlanList", method = RequestMethod.GET)
     @ResponseBody
     public DataWrapper<ProjectPlanWrapper> getProjectPlanList(
-    		@RequestParam(value = "projectId", required = true) Long projectId,
+    		@RequestParam(value = "projectId", required = false) Long projectId,
     		@RequestParam(value = "state", required = false) Integer state,
+    		@RequestParam(value = "order", required = false) Integer order,
             @RequestParam(value = "token",required = true) String token
     		) {
-		
-    	return projectPlanService.getProjectPlanList(projectId,state, token);
+		if (order == null || order < 0 || order > 1) {
+			order = 1;
+		}
+    	return projectPlanService.getProjectPlanList(projectId,state,order, token);
     }
 	
 	

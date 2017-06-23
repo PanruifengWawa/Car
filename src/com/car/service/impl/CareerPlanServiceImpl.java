@@ -45,6 +45,8 @@ public class CareerPlanServiceImpl implements CareerPlanService {
 		User admin = SessionManager.getSession(token);
 		if (admin != null && admin.getType() == Parameters.admin) {
 			for(Long userId : userIds) {
+				
+				
 				CareerPlan careerPlan = new CareerPlan();
 				careerPlan.setId(null);
 				careerPlan.setUserId(userId);

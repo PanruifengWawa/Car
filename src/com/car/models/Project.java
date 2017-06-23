@@ -16,7 +16,17 @@ public class Project {
 	private Long id;
 	private String name;
 	private Date regdate;
+	private Integer planCount;
 	
+	
+	@Basic
+    @Column(name = "plan_count")
+	public Integer getPlanCount() {
+		return planCount;
+	}
+	public void setPlanCount(Integer planCount) {
+		this.planCount = planCount;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

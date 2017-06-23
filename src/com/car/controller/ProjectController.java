@@ -116,6 +116,49 @@ public class ProjectController {
     	return projectService.deleteProject(projectId, token);
     }
 	
+	/**
+	* @api {get} api/project/getById 根据id获取项目详情
+	* @apiName project_getById
+	* @apiGroup project
+	*
+	* @apiParam {Long} projectId * 项目Id（必须）
+	* @apiParam {String} token * 身份验证（必须）
+	*
+	* @apiSuccessExample {json} Success-Response:
+	* 	HTTP/1.1 200 ok
+	* 	{
+	*  		"callStatus": "SUCCEED",
+	*  		"errorCode": "No_Error",
+	*  		"data": null,
+	*  		"token": null,
+	*  		"numberPerPage": 0,
+	*  		"currentPage": 0,
+	*  		"totalNumber": 0,
+	*  		"totalPage": 0
+	*	}
+	*
+	* @apiSuccessExample {json} Error-Response:
+	* 	HTTP/1.1 200 ok
+	* 	{
+	*  		"callStatus": "FAILED",
+	*  		"errorCode": "Error",
+	*  		"data": null,
+	*  		"token": null,
+	*  		"numberPerPage": 0,
+	*  		"currentPage": 0,
+	*  		"totalNumber": 0,
+	*  		"totalPage": 0
+	*	}
+	**/
+	@RequestMapping(value="getById", method = RequestMethod.GET)
+    @ResponseBody
+    public DataWrapper<Project> getById(
+    		@RequestParam(value = "projectId", required = true) Long projectId,
+            @RequestParam(value = "token",required = true) String token
+    		) {
+		
+    	return projectService.getById(projectId, token);
+    }
 	
 	/**
 	* @api {post} api/project/addMember 项目添加成员 -管理员用
@@ -182,17 +225,20 @@ public class ProjectController {
     *			{
     *  				"id": 1,
     *  				"name": "项目1",
-    *  				"regdate": 1488816000000
+    *  				"regdate": 1488816000000,
+    *  				"planCount" : 0
     *			},
     *			{
     *  				"id": 2,
     *  				"name": "项目2",
-    *  				"regdate": 1488816000000
+    *  				"regdate": 1488816000000,
+    *  				"planCount" : 0
     *			},
     *			{
     *  				"id": 3,
     *  				"name": "项目3",
-    *  				"regdate": 1488816000000
+    *  				"regdate": 1488816000000,
+    *  				"planCount" : 0
     *			}
   	*		],
   	*		"token": null,

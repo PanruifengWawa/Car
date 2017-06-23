@@ -15,6 +15,7 @@ import com.car.models.ProjectPlan;
 import com.car.models.User;
 import com.car.service.TimerJobsService;
 import com.car.utils.DataWrapper;
+import com.car.utils.DateUtil;
 import com.car.utils.MailUtil;
 
 @Service("timerJobsService")
@@ -68,7 +69,7 @@ public class TimerJobsServiceImpl implements TimerJobsService {
 					if (user != null) {
 						String[] emailList = {user.getEmail()};
 						System.out.println("个人计划邮件：" + user.getEmail());
-						MailUtil.send(emailList, "个人生涯规划提醒", "您的个人规划：<h1>" + careerPlan.getTitle() + "</h1>未提交或已逾期，请登录系统查看。");
+						MailUtil.send(emailList, "个人生涯规划提醒", user.getUserName() + " " + user.getName() + "您好<br/>  您的生涯计划：<h1>" + careerPlan.getTitle() + "</h1>截止日期为" + DateUtil.date2String(careerPlan.getPlandate()) + ",即将到期或已超期，请尽快登录系统提交文件。");
 					}
 				}
 			} else {

@@ -137,5 +137,11 @@ public class UserDaoImpl extends BaseDao<User> implements UserDao {
         return dataWrapper;
 	}
 
+	@Override
+	public boolean deleteUser(User user) {
+		// TODO Auto-generated method stub
+		return delete(user);
+	}
+
 
 }

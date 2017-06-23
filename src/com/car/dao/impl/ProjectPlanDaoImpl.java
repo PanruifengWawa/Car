@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -47,7 +48,7 @@ public class ProjectPlanDaoImpl extends BaseDao<ProjectPlan> implements ProjectP
 	}
 
 	@Override
-	public List<ProjectPlan> getProjectPlanList(Long projectId, Integer state) {
+	public List<ProjectPlan> getProjectPlanList(Long projectId, Integer state,Integer order) {
 		// TODO Auto-generated method stub
 		List<ProjectPlan> ret = null;
         Session session = getSession();
@@ -57,6 +58,11 @@ public class ProjectPlanDaoImpl extends BaseDao<ProjectPlan> implements ProjectP
 		}
         if (state != null) {
         	criteria.add(Restrictions.eq("state",state));
+		}
+        if (order == 1) {
+        	criteria.addOrder(Order.desc("plandate"));
+		} else {
+			criteria.addOrder(Order.asc("plandate"));
 		}
         try {
             ret = criteria.list();

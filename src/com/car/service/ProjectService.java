@@ -17,6 +17,8 @@ public interface ProjectService {
 	DataWrapper<Void> addMember(Long projectId,Long userId,String token);
 	DataWrapper<Void> removeMember(Long projectId,Long userId,String token);
 	
+	DataWrapper<Project> getById(Long projectId,String token);
+	
 	DataWrapper<List<Project>> getProjectList(String name,Integer numberPerPage, Integer currentPage,String token);
 	DataWrapper<List<User>> getMemberList(Long projectId,String token);
 	

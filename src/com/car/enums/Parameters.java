@@ -15,7 +15,7 @@ public class Parameters {
 	public static final Integer stateOverdue = -2;
 	public static final Integer stateUnpassed = 2;
 	
-	public static final String fileSrc = "http://123.56.220.72:8080/Car";
+	public static final String fileSrc = "http://202.120.167.197:8080/Car";
 	
 	public static final String xtoken = "adadaddfmkmklmsksuhu";
 	
