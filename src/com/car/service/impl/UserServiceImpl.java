@@ -111,8 +111,6 @@ public class UserServiceImpl implements UserService {
 		
 		if (CheckUtil.checkNull(name) || CheckUtil.checkNull(email) || CheckUtil.checkNull(schoolYear)) {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Null_Input_Error);
-		} else if (!CheckUtil.checkEmail(email)) {
-			dataWrapper.setErrorCode(ErrorCodeEnum.Email_Format_Error);
 		} else {
 			User userInMemmory = SessionManager.getSession(token);
 			
@@ -193,13 +191,13 @@ public class UserServiceImpl implements UserService {
 		return dataWrapper;
 	}
 	@Override
-	public DataWrapper<List<User>> getUserList(String keywords,Integer state, String schoolYear,Integer careerCount,Integer numberPerPage,
+	public DataWrapper<List<User>> getUserList(String degreeType, String school, String keywords,Integer state, String schoolYear,Integer careerCount,Integer numberPerPage,
 			Integer currentPage, String token) {
 		// TODO Auto-generated method stub
 		DataWrapper<List<User>> dataWrapper = new DataWrapper<List<User>>();
 		User user = SessionManager.getSession(token);
 		if (user != null) {
-			dataWrapper = userDao.getUserList(keywords,state, schoolYear, careerCount, numberPerPage, currentPage);
+			dataWrapper = userDao.getUserList(degreeType, school, keywords, state, schoolYear, careerCount, numberPerPage, currentPage);
 			for(User oneUser : dataWrapper.getData()) {
 				oneUser.setPassword(null);
 			}

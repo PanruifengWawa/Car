@@ -358,6 +358,8 @@ public class UserController {
 	* @apiName user_getUserList
 	* @apiGroup user
 	*
+	* @apiParam {String} degreeType * 专硕学硕（可选）
+	* @apiParam {String} school * 学院（可选）
 	* @apiParam {String} keywords * 筛选参数，userName、name、email模糊查找（可选）
 	* @apiParam {int} state * 筛选参数，用户状态0-未通过，1-通过，2-正在审核（可选）
 	* @apiParam {String} schoolYear * 学籍 类似2016（可选）
@@ -414,6 +416,8 @@ public class UserController {
 	@RequestMapping(value="getUserList", method = RequestMethod.GET)
     @ResponseBody
     public DataWrapper<List<User>> getUserList(
+    		@RequestParam(value = "degreeType", required = false) String degreeType,
+    		@RequestParam(value = "school", required = false) String school,
     		@RequestParam(value = "keywords", required = false) String keywords,
     		@RequestParam(value = "state", required = false) Integer state,
     		@RequestParam(value = "schoolYear", required = false) String schoolYear,
@@ -423,7 +427,7 @@ public class UserController {
     		@RequestParam(value = "token", required = true) String token
     		) {
 		
-    	return userService.getUserList(keywords,state, schoolYear,careerCount, numberPerPage, currentPage, token);
+    	return userService.getUserList(degreeType, school, keywords, state, schoolYear, careerCount, numberPerPage, currentPage, token);
     }
 	
 	
